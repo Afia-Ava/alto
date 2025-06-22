@@ -404,6 +404,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="assets/js/firebase-config.js"></script>
 </head>
 <body>
   <header>
@@ -526,18 +527,7 @@
   </footer>
 
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7ea0aGE3rAUylcNePSHKD00R3N2MFmww",
-      authDomain: "the-alto.firebaseapp.com",
-      projectId: "the-alto",
-      storageBucket: "the-alto.appspot.com",
-      messagingSenderId: "810447970631",
-      appId: "1:810447970631:web:dc8c8347bf1af79e5d2a25"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase - moved to firebase-config.js
     const db = firebase.firestore();
     
     // Check if user is logged in
@@ -811,6 +801,16 @@
         });
       }
     });
+    
+    // Close modal when clicking outside
+    document.getElementById('edit-profile-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
     
     // Close modal when clicking outside
     document.getElementById('edit-profile-modal').addEventListener('click', function(e) {

@@ -8,6 +8,7 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="assets/js/firebase-config.js"></script>
   <script src="assets/js/auth.js"></script>
   <style>
     body {
@@ -241,18 +242,7 @@
     <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
   </footer>
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7ea0aGE3rAUylcNePSHKD00R3N2MFmww",
-      authDomain: "the-alto.firebaseapp.com",
-      projectId: "the-alto",
-      storageBucket: "the-alto.appspot.com",
-      messagingSenderId: "810447970631",
-      appId: "1:810447970631:web:dc8c8347bf1af79e5d2a25"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase - moved to firebase-config.js
     
     // Check if user is already logged in
     firebase.auth().onAuthStateChanged(user => {
@@ -283,6 +273,16 @@
     document.getElementById('logout-btn').addEventListener('click', function(e) {
       e.preventDefault();
       firebase.auth().signOut().then(() => {
+        // Sign-out successful
+        window.location.href = 'homepage.html';
+      }).catch((error) => {
+        // An error happened
+        console.error('Logout error:', error);
+      });
+    });
+  </script>
+</body>
+</html>
         // Sign-out successful
         window.location.href = 'homepage.html';
       }).catch((error) => {
