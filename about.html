@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Alto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(180deg, #e6f9f2 0%, #fdf6e3 100%);
+      color: #2e4d3a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: #b6e5c3;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.07);
+    }    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      font-family: 'Baloo 2', 'Quicksand', Arial, sans-serif;
+    }
+    .logo span {
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+      color: #4ecb8f;
+    }
+    .logo-link {
+      text-decoration: none;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2e4d3a;
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 1rem;
+      padding: 0.3rem 0.8rem;
+    }
+    nav a:hover, nav a.active {
+      background: #e6f9f2;
+      color: #4ecb8f;
+    }    .cta-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .cta-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+    }
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 3rem 1rem;
+    }
+    .about-container {
+      background: rgba(255,255,255,0.95);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(46,77,58,0.10);
+      max-width: 1100px;
+      min-width: 0;
+      width: 90vw;
+      padding: 3.5rem 3rem 2.5rem 3rem;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2.5rem;
+      color: #2e4d3a;
+      margin-bottom: 1.2rem;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .about-wave {
+      position: absolute;
+      left: 0; right: 0; top: -30px;
+      width: 100%;
+      height: 80px;
+      background: url('https://svgshare.com/i/14kA.svg') repeat-x;
+      background-size: cover;
+      opacity: 0.18;
+      z-index: 1;
+    }
+    .about-graphic {
+      width: 120px;
+      margin: 0 auto 1.5rem auto;
+      display: block;
+      filter: drop-shadow(0 4px 12px #4ecb8f33);
+      z-index: 2;
+      position: relative;
+    }
+    .about-content {
+      font-size: 1.18rem;
+      color: #2e4d3a;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      z-index: 2;
+      position: relative;
+    }
+    .about-highlight {
+      color: #4ecb8f;
+      font-weight: 700;
+    }
+    .about-pill {
+      display: inline-block;
+      background: #e6f9f2;
+      color: #4ecb8f;
+      border-radius: 1.2rem;
+      padding: 0.3rem 1.1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0.2rem 0.3rem;
+      box-shadow: 0 2px 8px #4ecb8f22;
+    }
+    .about-footer {
+      font-size: 1.05rem;
+      color: #3e6b4c;
+      margin-top: 1.5rem;
+      z-index: 2;
+      position: relative;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      .about-container { padding: 1.2rem 0.5rem; }
+      .about-title { font-size: 2rem; }
+      .about-graphic { width: 80px; }
+    }
+    footer {
+      padding: 2rem;
+      background: #b6e5c3;
+      text-align: center;
+      color: #2e4d3a;
+    }
+  </style>
+</head>
+<body>
+  <header>    <a href="homepage.html" class="logo-link">
+      <div class="logo">Alto</div>
+    </a>
+    <nav>
+      <a href="iq-test.html">IQ Test</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+    <div id="auth-container">
+      <a href="login.html" class="cta-btn" id="join-btn">Join</a>
+      <div class="user-menu" id="user-menu" style="display: none;">
+        <img src="" alt="Profile" class="profile-pic" id="profile-pic">
+        <div class="dropdown-menu">
+          <a href="my-profile.html">My Profile</a>
+          <a href="#" id="logout-btn">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="about-container">
+      <div class="about-wave"></div>
+      <div class="about-title">About Alto</div>
+      <div class="about-content">
+        Alto is a <span class="about-highlight">calm space</span> to understand your mind — through thoughtful IQ and personality tests designed with <span class="about-highlight">elegance</span> and <span class="about-highlight">purpose</span>. We combine research-backed frameworks like the <span class="about-pill">Big Five</span> and <span class="about-pill">Myers-Briggs</span> with clean, ocean-inspired design to help you <span class="about-highlight">reflect</span>, not compete. Whether you’re here to deepen your self-awareness, prepare for something new, or simply pause and check in, Alto meets you where you are. Your results are <span class="about-highlight">private</span>, <span class="about-highlight">pressure-free</span>, and always focused on <span class="about-highlight">growth</span>.
+      </div>
+      <div class="about-footer">
+        This is not about perfection — it’s about knowing yourself a little better, one question at a time.
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
+  </footer>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ea0aGE3rAUylcNePSHKD00R3N2MFmww",
+      authDomain: "the-alto.firebaseapp.com",
+      projectId: "the-alto",
+      storageBucket: "the-alto.appspot.com",
+      messagingSenderId: "810447970631",
+      appId: "1:810447970631:web:dc8c8347bf1af79e5d2a25"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Check if user is already logged in
+    firebase.auth().onAuthStateChanged(user => {
+      const joinBtn = document.getElementById('join-btn');
+      const userMenu = document.getElementById('user-menu');
+      const profilePic = document.getElementById('profile-pic');
+      
+      if (user) {
+        // User is signed in, show profile picture
+        joinBtn.style.display = 'none';
+        userMenu.style.display = 'inline-block';
+        
+        // Set profile picture
+        if (user.photoURL) {
+          profilePic.src = user.photoURL;
+        } else {
+          // Default profile picture if user doesn't have one
+          profilePic.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email) + '&background=4ecb8f&color=fff';
+        }
+      } else {
+        // User is signed out, show join button
+        joinBtn.style.display = 'block';
+        userMenu.style.display = 'none';
+      }
+    });
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      firebase.auth().signOut().then(() => {
+        // Sign-out successful
+        window.location.href = 'homepage.html';
+      }).catch((error) => {
+        // An error happened
+        console.error('Logout error:', error);
+      });
+    });
+  </script>
+</body>
+</html>

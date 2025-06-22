@@ -9,9 +9,28 @@
     body {
       margin: 0;
       font-family: 'Quicksand', Arial, sans-serif;
-      background: linear-gradient(180deg, #e6f9f2 0%, #fdf6e3 100%);
       color: #2e4d3a;
+      /* Update background image path to the correct location */
+      background: url('assets/background.jpg') no-repeat center center fixed;
+      /* Option 2 (commented out): Use local file after you create the folder
+      background: url('assets/images/background.jpg') no-repeat center center fixed; */
+      background-size: cover;
+      position: relative;
     }
+    
+    /* Reduce overlay opacity to make background more visible */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Reduce opacity from 0.92/0.94 to 0.7/0.75 */
+      background: linear-gradient(180deg, rgba(230, 249, 242, 0.7) 0%, rgba(253, 246, 227, 0.75) 100%);
+      z-index: -1;
+    }
+    
     header {
       display: flex;
       align-items: center;
@@ -33,6 +52,9 @@
       font-size: 1.5rem;
       margin-left: 0.5rem;
       color: #4ecb8f;
+    }
+    .logo-link {
+      text-decoration: none;
     }
     nav a {
       text-decoration: none;
@@ -58,19 +80,66 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(46,77,58,0.10);
       transition: background 0.2s, color 0.2s;
+      text-decoration: none;
     }
     .cta-btn:hover {
       background: #2e4d3a;
       color: #f7d9a3;
     }
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
+    }
     .hero {
       position: relative;
       text-align: center;
-      padding: 4rem 1rem 2rem 1rem;
-      background: linear-gradient(180deg, #b6e5c3 0%, #e6f9f2 100%);
-      border-bottom-left-radius: 3rem 2rem;
-      border-bottom-right-radius: 3rem 2rem;
+      padding: 3rem 2rem 2rem 2rem;
+      background: linear-gradient(180deg, rgba(182, 229, 195, 0.85) 0%, rgba(230, 249, 242, 0.85) 100%);
+      backdrop-filter: blur(5px);
+      border-radius: 2rem;
       overflow: hidden;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 8px 24px rgba(46, 77, 58, 0.12);
     }
     .hero-wave {
       position: absolute;
@@ -117,6 +186,7 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(46,77,58,0.10);
       transition: background 0.2s, color 0.2s;
+      text-decoration: none;
     }
     .hero-btn.secondary {
       background: #f7d9a3;
@@ -145,9 +215,10 @@
       justify-content: center;
     }
     .feature-card {
-      background: #fff;
-      border-radius: 2rem;
-      box-shadow: 0 4px 16px rgba(46,77,58,0.08);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 16px rgba(46, 77, 58, 0.08);
       padding: 2rem 1.5rem;
       width: 320px;
       display: flex;
@@ -199,8 +270,7 @@
       margin-left: 0.5rem;
       box-shadow: 0 2px 8px rgba(46,77,58,0.10);
       transition: background 0.2s, color 0.2s;
-    }
-    .header-btn.join {
+    }    .header-btn.join {
       background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
       color: #fff;
       border: none;
@@ -212,6 +282,7 @@
       margin-left: 0.5rem;
       box-shadow: 0 2px 8px rgba(46,77,58,0.10);
       transition: background 0.2s, color 0.2s;
+      text-decoration: none;
     }
     .header-btn.join:hover {
       background: #2e4d3a;
@@ -236,31 +307,91 @@
         flex-direction: column;
         gap: 1rem;
       }
+    }    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
     }
   </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="assets/js/auth.js"></script>
 </head>
 <body>
   <header>
     <div class="logo">Alto</div>
     <nav>
-      <a href="#iq">IQ Test</a>
-      <a href="#personality">Personality Test</a>
-      <a href="#about">About</a>
+      <a href="iq-test.html">IQ Test</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="about.html">About</a>
     </nav>
-    <button class="header-btn join">Join</button>
-  </header>
-  <section class="hero">
-    <div class="hero-content">
-      <img class="hero-illustration" src="https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_1280.png" alt="Cute wave illustration">
-      <div class="hero-title">Welcome to Alto</div>
-      <div class="hero-desc">Discover your strengths and personality in a playful, beachy world. Take our fun, science-based tests and unlock your potential!</div>
-      <div class="hero-buttons">
-        <button class="hero-btn">Take the IQ Test</button>
-        <button class="hero-btn secondary">Explore Your Personality</button>
+    <div id="auth-container">
+      <a href="login.html" class="header-btn join" id="join-btn">Join</a>
+      <div class="user-menu" id="user-menu" style="display: none;">
+        <img src="" alt="Profile" class="profile-pic" id="profile-pic">
+        <div class="dropdown-menu">
+          <a href="my-profile.html">My Profile</a>
+          <a href="#" id="logout-btn">Log Out</a>
+        </div>
       </div>
     </div>
-    <div class="hero-wave"></div>
-  </section>
+  </header>
+  
+  <!-- Wrap hero in a container to center it -->
+  <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 1rem;">
+    <section class="hero">
+      <div class="hero-content">
+        <img class="hero-illustration" src="https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_1280.png" alt="Cute wave illustration">
+        <div class="hero-title">Welcome to Alto</div>
+        <div class="hero-desc">Discover your strengths and personality in a playful world. <br>Take our fun, science-based tests and unlock your potential!</div>
+        <div class="hero-buttons">
+          <a href="iq-test.html" class="hero-btn">Take the IQ Test</a>
+          <a href="personality-test.html" class="hero-btn secondary">Explore Your Personality</a>
+        </div>
+      </div>
+      <div class="hero-wave"></div>
+    </section>
+  </div>
+  
   <div class="login-note">You don't need to log in to take tests. Log in or sign up only if you want to save your past test results!</div>
   <main>
     <div class="features-title">What We Offer</div>
@@ -278,7 +409,7 @@
     </div>
   </main>
   <footer>
-    <div>© 2024 MindMetrics. Made with <span style="color:#4ecb8f;">💚</span> by the sea & sand.</div>
+    <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
   </footer>
 </body>
 </html>

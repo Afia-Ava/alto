@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personality Test | Alto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(180deg, #e6f9f2 0%, #fdf6e3 100%);
+      color: #2e4d3a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: #b6e5c3;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.07);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      font-family: 'Baloo 2', 'Quicksand', Arial, sans-serif;
+    }
+    .logo-link {
+      text-decoration: none;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2e4d3a;
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 1rem;
+      padding: 0.3rem 0.8rem;
+    }
+    nav a:hover, nav a.active {
+      background: #e6f9f2;
+      color: #4ecb8f;
+    }
+    .cta-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .cta-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+    }
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+    footer {
+      padding: 2rem;
+      background: #b6e5c3;
+      text-align: center;
+      color: #2e4d3a;
+    }
+    
+    /* Personality Test Specific Styles */
+    .test-container {
+      background: #fff;
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(46,77,58,0.10);
+      width: 100%;
+      max-width: 1000px;
+      overflow: hidden;
+      position: relative;
+      padding: 2rem 1rem;
+    }
+    .intro-container {
+      text-align: center;
+      padding: 2rem;
+    }
+    .intro-icon {
+      font-size: 3.5rem;
+      color: #4ecb8f;
+      margin-bottom: 1.5rem;
+    }
+    .intro-title {
+      font-size: 2.2rem;
+      color: #2e4d3a;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .intro-description {
+      color: #3e6b4c;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .test-details {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2rem 0 1rem;
+      padding: 0 1rem;
+    }
+    .test-detail {
+      text-align: center;
+      position: relative;
+    }
+    .detail-icon {
+      font-size: 2rem;
+      color: #4ecb8f;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+    .detail-title {
+      font-weight: 700;
+      color: #2e4d3a;
+      margin-bottom: 0.5rem;
+    }
+    .detail-text {
+      color: #3e6b4c;
+      font-size: 0.95rem;
+    }
+    .start-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+    .start-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(46,77,58,0.2);
+    }
+    .questions-container {
+      display: none;
+    }
+    .question {
+      margin-bottom: 2rem;
+    }
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2e4d3a;
+      margin-bottom: 1rem;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .option {
+      padding: 1rem;
+      border: 2px solid #e6f9f2;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option:hover {
+      background: #f7f7f7;
+      border-color: #b6e5c3;
+    }
+    .option.selected {
+      background: #e6f9f2;
+      border-color: #4ecb8f;
+    }
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: #e6f9f2;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    .nav-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .prev-btn {
+      background: #f7f7f7;
+      color: #3e6b4c;
+      border: 1px solid #e6f9f2;
+    }
+    .prev-btn:hover {
+      background: #e6f9f2;
+    }
+    .next-btn {
+      background: #4ecb8f;
+      color: white;
+      border: none;
+    }
+    .next-btn:hover {
+      background: #3dba7e;
+    }
+    
+    /* Add new styles for results screen */
+    .results-container {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .results-header {
+      margin-bottom: 2rem;
+    }
+    .personality-type {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #4ecb8f;
+      margin-bottom: 1rem;
+    }
+    .personality-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      margin-bottom: 1.5rem;
+    }
+    .personality-description {
+      color: #3e6b4c;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .radar-chart {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+    .results-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+      transition: all 0.3s;
+      margin-top: 2rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .results-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(46,77,58,0.2);
+    }
+    .trait-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .trait-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .trait-labels {
+      display: flex;
+      justify-content: space-between;
+    }
+    .trait-label {
+      font-weight: 600;
+      color: #2e4d3a;
+      font-size: 0.9rem;
+    }
+    .bar-container {
+      height: 10px;
+      background: #e6f9f2;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      transition: width 1s ease;
+    }
+    
+    /* Add styles for the rating scale */
+    .rating-scale {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 1.5rem 0;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .scale-label {
+      font-size: 0.9rem;
+      color: #3e6b4c;
+      text-align: center;
+      width: 20%;  
+    }
+
+    .scale-options {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+
+    .scale-option {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #e6f9f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #2e4d3a;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .scale-option:hover {
+      background: #f7f7f7;
+      border-color: #b6e5c3;
+    }
+
+    .scale-option.selected {
+      background: #e6f9f2;
+      border-color: #4ecb8f;
+      color: #4ecb8f;
+    }
+
+    .scale-line {
+      position: relative;
+      height: 4px;
+      background: #e6f9f2;
+      flex-grow: 1;
+      margin: 0 10px;
+      align-self: center;
+    }
+  </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <a href="homepage.html" class="logo-link">
+      <div class="logo">Alto</div>
+    </a>
+    <nav>
+      <a href="iq-test.html">IQ Test</a>
+      <a href="personality-test.html" class="active">Personality Test</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div id="auth-container">
+      <a href="login.html" class="cta-btn" id="join-btn">Join</a>
+      <div class="user-menu" id="user-menu" style="display: none;">
+        <img src="" alt="Profile" class="profile-pic" id="profile-pic">
+        <div class="dropdown-menu">
+          <a href="my-profile.html">My Profile</a>
+          <a href="#" id="logout-btn">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="test-container">
+      <!-- Introduction Screen -->
+      <div class="intro-container" id="introScreen">
+        <h1 class="intro-title">Discover Your Personality Type</h1>
+        <p class="intro-description">
+          Unlock insights into your personality with our scientifically-backed assessment.<br>
+          This test helps you understand your strengths, preferences, and growth areas.
+        </p>
+        
+        <div class="test-details">
+          <div class="test-detail">
+            <div class="detail-icon">⏱️</div>
+            <div class="detail-title">10-15 Minutes</div>
+          </div>
+          <div class="test-detail">
+            <div class="detail-icon">🔒</div>
+            <div class="detail-title">Private</div>
+          </div>
+          <div class="test-detail">
+            <div class="detail-icon">📊</div>
+            <div class="detail-title">Comprehensive</div>
+          </div>
+        </div>
+        
+        <button class="start-btn" id="startTestBtn">Start Personality Test</button>
+      </div>
+      
+      <!-- Questions Container (initially hidden) -->
+      <div class="questions-container" id="questionsScreen">
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div id="questionContainer">
+          <!-- Questions will be inserted here dynamically -->
+        </div>
+        
+        <div class="navigation-buttons">
+          <button class="nav-btn prev-btn" id="prevBtn">Previous</button>
+          <button class="nav-btn next-btn" id="nextBtn">Next</button>
+        </div>
+      </div>
+      
+      <!-- Add Results Container -->
+      <div class="results-container" id="resultsScreen">
+        <div class="results-header">
+          <div class="personality-type" id="personalityType">INFP</div>
+          <h2 class="personality-title" id="personalityTitle">The Reflective Visionary</h2>
+        </div>
+        
+        <p class="personality-description" id="personalityDescription">
+          You recharge alone, think deeply, and care sincerely. You prefer meaning over momentum and are most alive when imagining better futures. You make decisions through emotional clarity, not cold logic — a strength in today\'s fast world.
+        </p>
+        
+        <div class="trait-bars" id="traitBars">
+          <!-- Trait bars will be inserted here dynamically -->
+        </div>
+        
+        <a href="homepage.html" class="results-btn">Return to Homepage</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
+  </footer>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ea0aGE3rAUylcNePSHKD00R3N2MFmww",
+      authDomain: "the-alto.firebaseapp.com",
+      projectId: "the-alto",
+      storageBucket: "the-alto.appspot.com",
+      messagingSenderId: "810447970631",
+      appId: "1:810447970631:web:dc8c8347bf1af79e5d2a25"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Check if user is already logged in
+    firebase.auth().onAuthStateChanged(user => {
+      const joinBtn = document.getElementById('join-btn');
+      const userMenu = document.getElementById('user-menu');
+      const profilePic = document.getElementById('profile-pic');
+      
+      if (user) {
+        // User is signed in, show profile picture
+        joinBtn.style.display = 'none';
+        userMenu.style.display = 'inline-block';
+        
+        // Set profile picture
+        if (user.photoURL) {
+          profilePic.src = user.photoURL;
+        } else {
+          // Default profile picture if user doesn't have one
+          profilePic.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email) + '&background=4ecb8f&color=fff';
+        }
+      } else {
+        // User is signed out, show join button
+        joinBtn.style.display = 'block';
+        userMenu.style.display = 'none';
+      }
+    });
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      firebase.auth().signOut().then(() => {
+        // Sign-out successful
+        window.location.href = 'homepage.html';
+      }).catch((error) => {
+        // An error happened
+        console.error('Logout error:', error);
+      });
+    });
+    
+    // Start Test button functionality
+    document.getElementById('startTestBtn').addEventListener('click', function() {
+      document.getElementById('introScreen').style.display = 'none';
+      document.getElementById('questionsScreen').style.display = 'block';
+      
+      // Load first question
+      loadQuestion(0);
+    });
+    
+    // Sample questions (replace with your actual questions)
+    const questions = [
+      // 1. Introversion vs. Extraversion (I / E)
+      {
+        text: "I recharge best when I'm alone, not around others.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I enjoy group activities more than solo ones.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I tend to reflect quietly before I speak.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I often find silence more comforting than conversation.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 2. Intuition vs. Sensing (N / S)
+      {
+        text: "I focus on ideas and future possibilities more than current facts.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I trust patterns, instincts, and meanings that aren't immediately visible.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I enjoy daydreaming and imagining what could be.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I like details and practical applications more than theories.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 3. Thinking vs. Feeling (T / F)
+      {
+        text: "I make decisions based on logic, even when it's emotionally hard.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I value empathy and emotional connection in decision-making.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I try to stay objective in most situations.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I often prioritize how others feel over being technically correct.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 4. Judging vs. Perceiving (J / P)
+      {
+        text: "I like having things planned and organized.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I prefer spontaneous exploration over set plans.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I stick to my decisions and routines.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I leave room for surprises and new directions in life.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 5. Openness to Experience
+      {
+        text: "I enjoy exploring unfamiliar ideas, even if they're abstract.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I am drawn to art, music, or creativity.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I ask philosophical questions that others might overlook.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I enjoy routines more than novelty.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 6. Conscientiousness
+      {
+        text: "I'm methodical and reliable in my work.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I keep track of tasks and deadlines regularly.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I often finish projects before the due date.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I act on inspiration but struggle with discipline.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 7. Agreeableness
+      {
+        text: "I go out of my way to avoid hurting someone's feelings.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I try to understand people even when I disagree.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I enjoy being supportive more than being competitive.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I challenge others' opinions even if it makes them uncomfortable.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      
+      // 8. Emotional Sensitivity (Neuroticism)
+      {
+        text: "I get anxious about things I can't control.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I often dwell on what went wrong.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I need alone time to process strong emotions.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      },
+      {
+        text: "I stay calm under pressure.",
+        options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+      }
+    ];
+    
+    let currentQuestion = 0;
+    const answers = [];
+    
+    function loadQuestion(index) {
+      const questionContainer = document.getElementById('questionContainer');
+      const progressBar = document.getElementById('progressBar');
+      const prevBtn = document.getElementById('prevBtn');
+      
+      // Update progress bar
+      progressBar.style.width = `${(index / questions.length) * 100}%`;
+      
+      // Update buttons
+      prevBtn.style.display = index === 0 ? 'none' : 'block';
+      
+      // Create question element
+      const question = questions[index];
+      let questionHTML = `
+        <div class="question">
+          <div class="question-text">${index + 1}. ${question.text}</div>
+          <div class="rating-scale">
+            <div class="scale-labels">
+              <div class="scale-label">Strongly Disagree</div>
+              <div class="scale-label">Disagree</div>
+              <div class="scale-label">Neutral</div>
+              <div class="scale-label">Agree</div>
+              <div class="scale-label">Strongly Agree</div>
+            </div>
+            <div class="scale-options">
+      `;
+      
+      // Add scale options 1-5
+      for (let i = 0; i < 5; i++) {
+        const isSelected = answers[index] === i;
+        questionHTML += `
+          <div class="scale-option ${isSelected ? 'selected' : ''}" data-index="${i}">
+            ${i + 1}
+          </div>
+        `;
+        
+        // Add connecting line between options (except after the last one)
+        if (i < 4) {
+          questionHTML += `<div class="scale-line"></div>`;
+        }
+      }
+      
+      questionHTML += `
+            </div>
+          </div>
+        </div>
+      `;
+      
+      questionContainer.innerHTML = questionHTML;
+      
+      // Add event listeners to scale options
+      document.querySelectorAll('.scale-option').forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove selected class from all options
+          document.querySelectorAll('.scale-option').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          
+          // Add selected class to clicked option
+          this.classList.add('selected');
+          
+          // Save answer
+          answers[index] = parseInt(this.getAttribute('data-index'));
+        });
+      });
+    }
+    
+    // Navigation buttons
+    document.getElementById('nextBtn').addEventListener('click', function() {
+      // Check if an option is selected for the current question
+      const selectedOption = document.querySelector('.scale-option.selected');
+      
+      if (!selectedOption) {
+        // Visual indication that selection is required
+        const options = document.querySelectorAll('.scale-option');
+        options.forEach(option => {
+          option.style.borderColor = '#ff5a5a';
+        });
+        
+        // Add a slight shake animation to options
+        const optionsContainer = document.querySelector('.scale-options');
+        optionsContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          optionsContainer.style.animation = '';
+          // Reset border color after animation
+          options.forEach(option => {
+            option.style.borderColor = '#e6f9f2';
+          });
+        }, 500);
+        
+        return; // Prevent going to next question
+      }
+      
+      // Save the selected answer
+      answers[currentQuestion] = parseInt(selectedOption.getAttribute('data-index'));
+      
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion(currentQuestion);
+      } else {
+        // Process and show results
+        calculateResults();
+      }
+    });
+    
+    document.getElementById('prevBtn').addEventListener('click', function() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion(currentQuestion);
+      }
+    });
+    
+    // Add new functions for calculating and displaying results
+    function calculateResults() {
+      // Hide questions screen and show results
+      document.getElementById('questionsScreen').style.display = 'none';
+      document.getElementById('resultsScreen').style.display = 'block';
+      
+      // Calculate personality dimensions
+      const dimensions = {
+        ie: calculateDimension(0, 4, [true, false, true, true]), // Introversion vs Extraversion
+        ns: calculateDimension(4, 8, [true, true, true, false]), // Intuition vs Sensing
+        tf: calculateDimension(8, 12, [true, false, true, false]), // Thinking vs Feeling
+        jp: calculateDimension(12, 16, [true, false, true, false]), // Judging vs Perceiving
+        openness: calculateDimension(16, 20, [true, true, true, false]),
+        conscientiousness: calculateDimension(20, 24, [true, true, true, false]),
+        agreeableness: calculateDimension(24, 28, [true, true, true, false]),
+        neuroticism: calculateDimension(28, 32, [true, true, true, false])
+      };
+      
+      // Generate MBTI code
+      const mbti = (dimensions.ie > 50 ? 'I' : 'E') + 
+                  (dimensions.ns > 50 ? 'N' : 'S') + 
+                  (dimensions.tf > 50 ? 'T' : 'F') + 
+                  (dimensions.jp > 50 ? 'J' : 'P');
+      
+      // Display MBTI type
+      document.getElementById('personalityType').textContent = mbti;
+      
+      // Set personality title and description based on MBTI
+      const personalityData = getPersonalityData(mbti);
+      document.getElementById('personalityTitle').textContent = personalityData.title;
+      document.getElementById('personalityDescription').textContent = personalityData.description;
+      
+      // Create trait bars
+      createTraitBars(dimensions);
+      
+      // Save results to Firestore if user is logged in
+      const user = firebase.auth().currentUser;
+      if (user) {
+        const db = firebase.firestore();
+        
+        // Create a test result object
+        const testResult = {
+          userId: user.uid,
+          testType: 'personality',
+          result: mbti,
+          description: personalityData.title,
+          timestamp: new Date(), // Use JavaScript Date instead of server timestamp
+          dimensions: dimensions  // The object is stored as-is
+        };
+        
+        // Add to Firestore
+        db.collection('testResults').add(testResult)
+          .then(() => {
+            console.log('Personality test result saved successfully');
+          })
+          .catch((error) => {
+            console.error('Error saving personality test result:', error);
+          });
+      }
+    }
+    
+    function calculateDimension(start, end, reverse) {
+      let score = 0;
+      let total = 0;
+      
+      for (let i = start; i < end; i++) {
+        // Default to neutral (2) if not answered
+        const answer = answers[i] !== undefined ? answers[i] : 2;
+        
+        // Apply reverse scoring if needed
+        const value = reverse[i - start] ? answer : 4 - answer;
+        score += value;
+        total += 4; // Max value per question
+      }
+      
+      // Convert to percentage
+      return Math.round((score / total) * 100);
+    }
+    
+    function getPersonalityData(mbti) {
+      const data = {
+        'INFP': {
+          title: 'The Reflective Visionary',
+          description: 'You recharge alone, think deeply, and care sincerely. You prefer meaning over momentum and are most alive when imagining better futures. You make decisions through emotional clarity, not cold logic — a strength in today\'s fast world.'
+        },
+        'ENFP': {
+          title: 'The Enthusiastic Innovator',
+          description: 'You energize others, champion creative solutions, and connect diverse ideas. Your enthusiasm is contagious, and you thrive on exploring possibilities. You value authenticity over tradition and see potential where others see obstacles.'
+        },
+        'INFJ': {
+          title: 'The Insightful Guide',
+          description: 'You understand people deeply, connect seemingly unrelated patterns, and stand firmly for your values. You bring thoughtful perspective to complex situations and help others find their purpose. Your quiet wisdom creates meaningful change.'
+        },
+        'ENFJ': {
+          title: 'The Inspirational Mentor',
+          description: 'You elevate those around you, understand motivations intuitively, and create harmony. You\'re drawn to helping others reach their potential and creating communities where everyone can contribute. Your charisma comes from genuine care.'
+        },
+        'INTJ': {
+          title: 'The Strategic Architect',
+          description: 'You develop comprehensive systems, transform vision into strategy, and pursue improvement relentlessly. You excel at identifying patterns and creating efficient solutions. Your independent thinking leads to breakthrough innovations.'
+        },
+        'ENTJ': {
+          title: 'The Decisive Commander',
+          description: 'You build productive systems, solve complex problems efficiently, and drive toward ambitious goals. You thrive in leadership roles where you can implement your strategic vision. Your clarity and confidence inspire others to action.'
+        },
+        'INTP': {
+          title: 'The Conceptual Analyst',
+          description: 'You explore theoretical frameworks, challenge underlying assumptions, and seek precision in your understanding. You notice logical inconsistencies others miss and enjoy developing elegant models. Your flexible thinking generates unique solutions.'
+        },
+        'ENTP': {
+          title: 'The Versatile Innovator',
+          description: 'You generate possibilities, challenge conventions, and adapt quickly to new information. You energize others with your creative problem-solving and strategic improvisation. Your ability to see multiple perspectives makes you a valuable contributor.'
+        },
+        'ISFP': {
+          title: 'The Authentic Composer',
+          description: 'You appreciate beauty in details, follow your own compass, and express values through action. You have a unique artistic sensibility and bring warmth to your relationships. Your gentle authenticity helps others feel truly seen.'
+        },
+        'ESFP': {
+          title: 'The Vibrant Performer',
+          description: 'You bring joy to everyday moments, respond resourcefully to immediate needs, and connect naturally with others. You approach life with spontaneity and enthusiasm. Your ability to be fully present makes experiences more meaningful.'
+        },
+        'ISTP': {
+          title: 'The Pragmatic Troubleshooter',
+          description: 'You understand how things work, respond effectively to challenges, and value practical solutions. You have a natural mechanical aptitude and enjoy optimizing systems. Your calm competence is especially valuable in crisis situations.'
+        },
+        'ESTP': {
+          title: 'The Energetic Problem-Solver',
+          description: 'You take decisive action, adapt quickly to changing situations, and bring a practical perspective. You thrive on challenges and enjoy finding immediate solutions. Your engaging style makes difficult tasks more manageable.'
+        },
+        'ISFJ': {
+          title: 'The Dedicated Guardian',
+          description: 'You create security through reliability, notice specific needs, and maintain important traditions. You have remarkable attention to detail and a strong sense of responsibility. Your quiet support creates stability for those around you.'
+        },
+        'ESFJ': {
+          title: 'The Supportive Harmonizer',
+          description: 'You build community through thoughtful gestures, organize resources to help others, and maintain valued connections. You create warm, structured environments where people feel they belong. Your practical care strengthens social bonds.'
+        },
+        'ISTJ': {
+          title: 'The Systematic Executor',
+          description: 'You create structure through proven methods, fulfill commitments dependably, and preserve important standards. You have a talent for creating efficient systems and maintaining quality. Your practical wisdom ensures consistent results.'
+        },
+        'ESTJ': {
+          title: 'The Efficient Organizer',
+          description: 'You implement effective structures, uphold important standards, and accomplish goals on schedule. You excel at coordinating resources and establishing clear procedures. Your practical leadership helps groups achieve concrete results.'
+        }
+      };
+      
+      // Default to INFP if type not found
+      return data[mbti] || data['INFP'];
+    }
+    
+    function createTraitBars(dimensions) {
+      const traitBars = document.getElementById('traitBars');
+      traitBars.innerHTML = '';
+      
+      // Define trait pairs
+      const traits = [
+        { name: 'Introversion vs. Extraversion', left: 'I', right: 'E', value: dimensions.ie },
+        { name: 'Intuition vs. Sensing', left: 'N', right: 'S', value: dimensions.ns },
+        { name: 'Thinking vs. Feeling', left: 'T', right: 'F', value: dimensions.tf },
+        { name: 'Judging vs. Perceiving', left: 'J', right: 'P', value: dimensions.jp },
+        { name: 'Openness to Experience', left: 'High', right: 'Low', value: dimensions.openness },
+        { name: 'Conscientiousness', left: 'High', right: 'Low', value: dimensions.conscientiousness },
+        { name: 'Agreeableness', left: 'High', right: 'Low', value: dimensions.agreeableness },
+        { name: 'Emotional Sensitivity', left: 'High', right: 'Low', value: dimensions.neuroticism }
+      ];
+      
+      // Create a bar for each trait
+      traits.forEach(trait => {
+        const traitBar = document.createElement('div');
+        traitBar.className = 'trait-bar';
+        
+        // Create trait name and labels
+        const traitLabels = document.createElement('div');
+        traitLabels.className = 'trait-labels';
+        
+        const leftLabel = document.createElement('div');
+        leftLabel.className = 'trait-label';
+        leftLabel.textContent = trait.left;
+        
+        const nameLabel = document.createElement('div');
+        nameLabel.className = 'trait-label';
+        nameLabel.textContent = trait.name;
+        
+        const rightLabel = document.createElement('div');
+        rightLabel.className = 'trait-label';
+        rightLabel.textContent = trait.right;
+        
+        traitLabels.appendChild(leftLabel);
+        traitLabels.appendChild(nameLabel);
+        traitLabels.appendChild(rightLabel);
+        
+        // Create bar container and fill
+        const barContainer = document.createElement('div');
+        barContainer.className = 'bar-container';
+        
+        const barFill = document.createElement('div');
+        barFill.className = 'bar-fill';
+        barFill.style.width = '0%'; // Start at 0 for animation
+        
+        barContainer.appendChild(barFill);
+        
+        // Add elements to trait bar
+        traitBar.appendChild(traitLabels);
+        traitBar.appendChild(barContainer);
+        
+        // Add trait bar to container
+        traitBars.appendChild(traitBar);
+        
+        // Animate bar fill after a short delay
+        setTimeout(() => {
+          barFill.style.width = trait.value + '%';
+        }, 100);
+      });
+    }
+  </script>
+</body>
+</html>
+  </script>
+</body>
+</html>

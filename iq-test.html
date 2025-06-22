@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IQ Test - Alto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(180deg, #e6f9f2 0%, #fdf6e3 100%);
+      color: #2e4d3a;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: #b6e5c3;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.07);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      letter-spacing: 1px;
+      font-family: 'Baloo 2', 'Quicksand', Arial, sans-serif;
+    }
+    .logo-link {
+      text-decoration: none;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2e4d3a;
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: color 0.2s, background-color 0.2s;
+      border-radius: 1rem;
+      padding: 0.3rem 0.8rem;
+    }
+    nav a:hover, nav a.active {
+      background: #e6f9f2;
+      color: #4ecb8f;    }    .cta-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: background 0.2s, color 0.2s;
+    }
+    .cta-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+    }
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
+    }
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .test-wrapper {
+      width: 100%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(46,77,58,0.1);
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .test-intro h1 {
+      font-size: 2.5rem;
+      color: #2e4d3a;
+      margin-bottom: 1rem;
+    }
+    .test-intro p {
+      font-size: 1.1rem;
+      color: #3e6b4c;
+      margin-bottom: 2rem;
+    }
+    .start-btn {
+      background: #4ecb8f;
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .start-btn:hover {
+      background: #2e4d3a;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e6f9f2;
+      border-radius: 5px;
+      margin-bottom: 2rem;
+    }
+    .progress-bar-inner {
+      width: 5%; /* Example progress */
+      height: 100%;
+      background: #4ecb8f;
+      border-radius: 5px;
+    }
+    .question-card h2 {
+      font-size: 1.5rem;
+      color: #2e4d3a;
+      margin-bottom: 0.5rem;
+    }
+    .question-card p {
+      font-size: 1.1rem;
+      color: #3e6b4c;
+      margin-bottom: 2rem;
+    }
+    .pattern-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .pattern-item {
+      width: 60px;
+      height: 60px;
+      background: #e6f9f2;
+      border: 2px solid #b6e5c3;
+      border-radius: 1rem;
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .pattern-item.question-mark {
+      background: #f7d9a3;
+      color: #2e4d3a;
+    }
+    .answer-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .answer-option {
+      background: #fff;
+      border: 2px solid #e6f9f2;
+      border-radius: 1rem;
+      padding: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .answer-option:hover {
+      background: #e6f9f2;
+      border-color: #4ecb8f;
+    }
+    .answer-option img {
+      width: 80px;
+      height: 80px;
+    }
+    footer {
+      padding: 2rem;
+      background: #b6e5c3;
+      text-align: center;
+      color: #2e4d3a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="homepage.html" class="logo-link">
+      <div class="logo">Alto</div>
+    </a>
+    <nav>
+      <a href="iq-test.html" class="active">IQ Test</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div id="auth-container">
+      <a href="login.html" class="cta-btn" id="join-btn">Join</a>
+      <div class="user-menu" id="user-menu" style="display: none;">
+        <img src="" alt="Profile" class="profile-pic" id="profile-pic">
+        <div class="dropdown-menu">
+          <a href="my-profile.html">My Profile</a>
+          <a href="#" id="logout-btn">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="test-wrapper">
+      <!-- Initial screen -->
+      <div class="test-intro">
+        <h1>IQ Test</h1>
+        <p>Test your cognitive skills with our series of puzzles and questions. See how you shine!</p>
+        <button class="start-btn" onclick="startTest()">Start Test</button>
+      </div>
+
+      <!-- Test screen (hidden by default) -->
+      <div class="question-screen" style="display: none;">
+        <div class="progress-bar">
+          <div class="progress-bar-inner" id="progressBar"></div>
+        </div>
+        <div class="question-card" id="questionCard">
+          <!-- Question content will be injected here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
+  </footer>
+
+  <script>
+    let score = 0;
+    let currentQuestion = 0;
+    // Updated questions array
+    const questions = [
+      // Logical Reasoning (8)
+      {
+        text: 'If all roses are flowers and some flowers fade quickly, which is true?',
+        options: [
+          'Some roses fade quickly',
+          'All flowers are roses',
+          'Some flowers are not roses',
+          'No roses fade quickly'
+        ],
+        correct: 2
+      },
+      {
+        text: 'John is taller than Sam. Sam is taller than Alex. Who is the shortest?',
+        options: [
+          'John',
+          'Sam',
+          'Alex',
+          'Can’t tell'
+        ],
+        correct: 2
+      },
+      {
+        text: 'If today is Monday, what day will it be 16 days from now?',
+        options: [
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Which number completes the analogy? 8:4 :: 10:?',
+        options: [
+          '2',
+          '5',
+          '6',
+          '8'
+        ],
+        correct: 1
+      },
+      {
+        text: 'A train travels 60 miles in 1 hour and 30 minutes. What’s the average speed?',
+        options: [
+          '45 mph',
+          '40 mph',
+          '50 mph',
+          '60 mph'
+        ],
+        correct: 0
+      },
+      {
+        text: 'A pencil costs 40 cents more than an eraser. Together they cost $1.10. How much is the pencil?',
+        options: [
+          '$1.00',
+          '$0.90',
+          '$0.70',
+          '$0.80'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Which shape doesn\'t belong?',
+        options: [
+          'Triangle',
+          'Circle',
+          'Square',
+          'Cube'
+        ],
+        correct: 3
+      },
+      {
+        text: 'If it takes 5 machines 5 minutes to make 5 parts, how long for 100 machines to make 100 parts?',
+        options: [
+          '100 minutes',
+          '5 minutes',
+          '50 minutes',
+          '25 minutes'
+        ],
+        correct: 1
+      },
+      // Pattern Recognition (7)
+      {
+        text: 'What comes next? 2, 4, 8, 16, ❓',
+        options: [
+          '20',
+          '32',
+          '28',
+          '30'
+        ],
+        correct: 1
+      },
+      {
+        text: 'What’s the missing letter? D, E, G, J, N, ❓',
+        options: [
+          'S',
+          'T',
+          'R',
+          'U'
+        ],
+        correct: 0
+      },
+      {
+        text: 'What comes next? 🔺🔺⬛🔺🔺⬛🔺🔺❓',
+        options: [
+          '⬛',
+          '🔺',
+          '🔷',
+          '⬜'
+        ],
+        correct: 0
+      },
+      {
+        text: 'Sequence: 81, 27, 9, 3, ❓',
+        options: [
+          '2',
+          '1',
+          '6',
+          '4'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Which figure completes the pattern? 🟡🟡🔴🟡🟡🔴🟡🟡❓',
+        options: [
+          '🟡',
+          '🔴',
+          '⚫',
+          '🔵'
+        ],
+        correct: 1
+      },
+      {
+        text: '5, 11, 23, 47, ❓',
+        options: [
+          '96',
+          '89',
+          '92',
+          '94'
+        ],
+        correct: 0
+      },
+      {
+        text: '2, 3, 5, 8, 12, ❓',
+        options: [
+          '16',
+          '17',
+          '15',
+          '18'
+        ],
+        correct: 1
+      },
+      // Spatial Reasoning (6)
+      {
+        text: 'Which shape is a rotation of this one? [show shape]',
+        options: [
+          'A',
+          'B',
+          'C',
+          'D'
+        ],
+        correct: 0
+      },
+      {
+        text: 'If a cube is painted on all sides and then cut into 64 small cubes, how many have 3 painted faces?',
+        options: [
+          '8',
+          '12',
+          '16',
+          '4'
+        ],
+        correct: 0
+      },
+      {
+        text: 'A shape is reflected across a vertical mirror. What’s the mirror image?',
+        options: [
+          'A',
+          'B',
+          'C',
+          'D'
+        ],
+        correct: 0
+      },
+      {
+        text: 'A folded cube shows 3 visible sides. What does the unfolded net look like?',
+        options: [
+          'A',
+          'B',
+          'C',
+          'D'
+        ],
+        correct: 0
+      },
+      {
+        text: 'Which 3D shape matches this shadow?',
+        options: [
+          'Sphere',
+          'Cylinder',
+          'Cone',
+          'Cube'
+        ],
+        correct: 2
+      },
+      {
+        text: 'Identify the odd pair out:',
+        options: [
+          'Triangle & pyramid',
+          'Circle & sphere',
+          'Square & cube',
+          'Rectangle & cylinder'
+        ],
+        correct: 3
+      },
+      // Numerical Reasoning (7)
+      {
+        text: 'What is 15% of 160?',
+        options: [
+          '24',
+          '18',
+          '20',
+          '32'
+        ],
+        correct: 0
+      },
+      {
+        text: 'If x + x + x = 21, what is x?',
+        options: [
+          '7',
+          '6',
+          '9',
+          '10'
+        ],
+        correct: 0
+      },
+      {
+        text: 'What is the next number? 101, 98, 94, 89, ❓',
+        options: [
+          '85',
+          '83',
+          '86',
+          '81'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Find the missing number: 7 × 8 = 56, 9 × 6 = 54, 4 × 5 = ❓',
+        options: [
+          '20',
+          '22',
+          '18',
+          '24'
+        ],
+        correct: 0
+      },
+      {
+        text: 'Which number is closest to √50?',
+        options: [
+          '6',
+          '7',
+          '8',
+          '9'
+        ],
+        correct: 1
+      },
+      {
+        text: 'If a = 3, b = 4, c = 5, what is a² + b² = ?',
+        options: [
+          '24',
+          '25',
+          '27',
+          '23'
+        ],
+        correct: 0
+      },
+      {
+        text: '1, 1, 2, 3, 5, 8, ❓',
+        options: [
+          '11',
+          '12',
+          '13',
+          '15'
+        ],
+        correct: 2
+      },
+      // Verbal Reasoning (7)
+      {
+        text: 'Which word is most similar to benevolent?',
+        options: [
+          'Evil',
+          'Kind',
+          'Bright',
+          'Sad'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Opposite of abstract?',
+        options: [
+          'Conceptual',
+          'Concrete',
+          'Mental',
+          'General'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Analogy: Dog is to bark as Cat is to:',
+        options: [
+          'Growl',
+          'Hiss',
+          'Purr',
+          'Meow'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Fill in the blank: She was so ____ that she forgot her keys twice.',
+        options: [
+          'forgetful',
+          'relaxed',
+          'nervous',
+          'loud'
+        ],
+        correct: 0
+      },
+      {
+        text: 'Which word doesn’t belong?\nApple\nBanana\nCarrot\nGrape',
+        options: [
+          'Apple',
+          'Banana',
+          'Carrot',
+          'Grape'
+        ],
+        correct: 2
+      },
+      {
+        text: 'Choose the correct sentence:',
+        options: [
+          'Their going to the beach',
+          'They\'re going to the beach',
+          'There going to the beach',
+          'Theyre going too the beach'
+        ],
+        correct: 1
+      },
+      {
+        text: 'Reorder to make a meaningful sentence: "sky / the / in / stars / the / are"',
+        options: [
+          'The stars are in the sky',
+          'Stars in are sky the the',
+          'The in sky are stars',
+          'Sky are stars in the'
+        ],
+        correct: 0
+      }
+    ];
+
+    function startTest() {
+      score = 0;
+      currentQuestion = 0;
+      document.querySelector('.test-intro').style.display = 'none';
+      document.querySelector('.question-screen').style.display = 'block';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      let html = `<h2>Question ${currentQuestion + 1}/${questions.length}</h2><p>${q.text}</p>`;
+      if (q.pattern) {
+        html += '<div class="pattern-container">';
+        q.pattern.forEach((item, idx) => {
+          html += `<div class="pattern-item${item === '?' ? ' question-mark' : ''}">${item}</div>`;
+        });
+        html += '</div>';
+      }
+      html += '<div class="answer-options">';
+      q.options.forEach((opt, idx) => {
+        html += `<div class="answer-option" onclick="selectAnswer(${idx})">${opt}</div>`;
+      });
+      html += '</div>';
+      document.getElementById('questionCard').innerHTML = html;
+      // Update progress bar
+      document.getElementById('progressBar').style.width = `${((currentQuestion) / questions.length) * 100}%`;
+    }
+
+    function selectAnswer(selectedIdx) {
+      if (selectedIdx === questions[currentQuestion].correct) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('progressBar').style.width = '100%';
+      // IQ interpretation and inspirational message
+      let interpretation = '';
+      let message = '';
+      let iqScore = 0;
+      
+      if (score <= 14) {
+        interpretation = 'Below Average (IQ ~85)';
+        iqScore = 85;
+        const messages = [
+          'Great minds don’t always test well — and that’s okay. This score is a snapshot, not a definition. You may think in ways this test can’t capture. Your growth is ahead, not behind.',
+          'Your clarity is unfolding. Just like the ocean, intelligence flows differently in everyone. Keep challenging yourself — Alto is here for the journey.'
+        ];
+        message = messages[Math.floor(Math.random() * messages.length)];
+      } else if (score <= 22) {
+        interpretation = 'Average (IQ ~90–105)';
+        iqScore = 95; // Midpoint of range
+        const messages = [
+          'You have a steady mind and an emerging sense of structure. Some strengths are quiet at first. With practice and curiosity, your clarity will only deepen.',
+          'You’re on your way. Every insight you build today makes the next test easier. Your intelligence is real — and it’s evolving.'
+        ];
+        message = messages[Math.floor(Math.random() * messages.length)];
+      } else if (score <= 27) {
+        interpretation = 'Above Average (IQ ~110–120)';
+        iqScore = 115; // Midpoint of range
+        message = 'You think with structure and flexibility. You\'re in tune with both logic and flow — and that\'s a powerful mix. Keep training your mind like a muscle.';
+      } else if (score <= 32) {
+        interpretation = 'High (IQ ~125–135)';
+        iqScore = 130; // Midpoint of range
+        message = 'You think with clarity and pattern. Your mind is in tune with complex relationships — a natural builder of systems and insight.';
+      } else {
+        interpretation = 'Exceptional (IQ ~140+)';
+        iqScore = 140;
+        message = 'You perceive the world with precision and pattern. This is a rare gift — a reflection of how deeply you process and intuit the world around you.';
+      }
+      document.getElementById('questionCard').innerHTML = `
+        <h2>All done!</h2>
+        <p>Thank you for taking the Alto IQ Test.</p>
+        <div style="font-size:1.2rem;margin:1.5rem 0;">
+          <strong>Total Questions:</strong> 35<br>
+          <strong>Your Score:</strong> ${score} / 35
+        </div>
+        <div style="font-size:1.2rem;color:#4ecb8f;"><strong>${interpretation}</strong></div>
+        <div style="margin-top:1.5rem;font-size:1.1rem;color:#2e4d3a;">${message}</div>
+      `;
+      
+      // Save results to Firestore if user is logged in
+      const user = firebase.auth().currentUser;
+      if (user) {
+        const db = firebase.firestore();
+        
+        // Create a test result object
+        const testResult = {
+          userId: user.uid,
+          testType: 'iq',
+          result: iqScore.toString(),
+          description: interpretation,
+          rawScore: score,
+          totalQuestions: questions.length,
+          timestamp: new Date()
+        };
+        
+        // Add to Firestore
+        db.collection('testResults').add(testResult)
+          .then(() => {
+            console.log('IQ test result saved successfully');
+          })
+          .catch((error) => {
+            console.error('Error saving IQ test result:', error);
+          });
+      }
+    }
+  </script>
+
+</body>
+</html>

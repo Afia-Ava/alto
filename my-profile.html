@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Alto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(180deg, #e6f9f2 0%, #fdf6e3 100%);
+      color: #2e4d3a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: #b6e5c3;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.07);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      font-family: 'Baloo 2', 'Quicksand', Arial, sans-serif;
+    }
+    .logo-link {
+      text-decoration: none;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2e4d3a;
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 1rem;
+      padding: 0.3rem 0.8rem;
+    }
+    nav a:hover, nav a.active {
+      background: #e6f9f2;
+      color: #4ecb8f;
+    }
+    .cta-btn {
+      background: linear-gradient(90deg, #4ecb8f 60%, #f7d9a3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .cta-btn:hover {
+      background: #2e4d3a;
+      color: #f7d9a3;
+    }
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #4ecb8f;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(46,77,58,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46,77,58,0.15);
+    }
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(46,77,58,0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-menu a {
+      color: #2e4d3a;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background-color: #e6f9f2;
+    }
+    .user-menu:hover .dropdown-menu {
+      display: block;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+    footer {
+      padding: 2rem;
+      background: #b6e5c3;
+      text-align: center;
+      color: #2e4d3a;
+    }
+    
+    /* Profile Page Specific Styles */
+    .profile-container {
+      background: #fff;
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(46,77,58,0.10);
+      width: 100%;
+      max-width: 1000px;
+      overflow: hidden;
+      padding: 2rem;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e6f9f2;
+    }
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #4ecb8f;
+      margin-right: 2rem;
+    }
+    .profile-info {
+      flex: 1;
+    }
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      margin-bottom: 0.5rem;
+    }
+    .profile-email {
+      color: #3e6b4c;
+      margin-bottom: 1rem;
+    }
+    .profile-edit-btn {
+      background: #f7f7f7;
+      color: #3e6b4c;
+      border: 1px solid #e6f9f2;
+      border-radius: 1.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .profile-edit-btn:hover {
+      background: #e6f9f2;
+    }
+    .profile-sections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .profile-section {
+      flex: 1;
+      min-width: 300px;
+    }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2e4d3a;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e6f9f2;
+    }
+    .test-result-card {
+      background: #f9fefe;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(46,77,58,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .test-result-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(46,77,58,0.08);
+    }
+    .test-result-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .test-type {
+      font-weight: 700;
+      color: #2e4d3a;
+    }
+    .test-date {
+      font-size: 0.9rem;
+      color: #3e6b4c;
+    }
+    .test-score {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4ecb8f;
+      margin-bottom: 0.5rem;
+    }
+    .test-description {
+      font-size: 0.95rem;
+      color: #3e6b4c;
+    }
+    .view-details-btn {
+      margin-top: 1rem;
+      display: inline-block;
+      color: #4ecb8f;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .view-details-btn:hover {
+      text-decoration: underline;
+    }
+    .stats-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-item {
+      flex: 1;
+      min-width: 120px;
+      background: #f9fefe;
+      border-radius: 1rem;
+      padding: 1.2rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(46,77,58,0.05);
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4ecb8f;
+      margin-bottom: 0.3rem;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: #3e6b4c;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #3e6b4c;
+    }
+    .empty-state-icon {
+      font-size: 3rem;
+      color: #e6f9f2;
+      margin-bottom: 1rem;
+    }
+    
+    /* Add styles for the profile edit modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(46, 77, 58, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(46, 77, 58, 0.15);
+      transform: translateY(-20px);
+      transition: transform 0.3s;
+    }
+    
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2e4d3a;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #3e6b4c;
+      cursor: pointer;
+    }
+    
+    .modal-body {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #2e4d3a;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e6f9f2;
+      border-radius: 0.8rem;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #4ecb8f;
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+    
+    .modal-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .modal-btn.cancel {
+      background: #f7f7f7;
+      color: #3e6b4c;
+      border: 1px solid #e6f9f2;
+    }
+    
+    .modal-btn.save {
+      background: #4ecb8f;
+      color: white;
+      border: none;
+    }
+    
+    .modal-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .modal-btn.cancel:hover {
+      background: #e6f9f2;
+    }
+    
+    .modal-btn.save:hover {
+      background: #3dba7e;
+    }
+  </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <a href="homepage.html" class="logo-link">
+      <div class="logo">Alto</div>
+    </a>
+    <nav>
+      <a href="iq-test.html">IQ Test</a>
+      <a href="personality-test.html">Personality Test</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div id="auth-container">
+      <a href="login.html" class="cta-btn" id="join-btn">Join</a>
+      <div class="user-menu" id="user-menu" style="display: none;">
+        <img src="" alt="Profile" class="profile-pic" id="profile-pic">
+        <div class="dropdown-menu">
+          <a href="my-profile.html" class="active">My Profile</a>
+          <a href="#" id="logout-btn">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="profile-container">
+      <div class="profile-header">
+        <img src="" alt="Profile Picture" class="profile-image" id="large-profile-pic">
+        <div class="profile-info">
+          <h1 class="profile-name" id="user-name">User Name</h1>
+          <p class="profile-email" id="user-email">user@example.com</p>
+          <button class="profile-edit-btn" id="edit-profile-btn">Edit Profile</button>
+        </div>
+      </div>
+      
+      <div class="profile-sections">
+        <div class="profile-section">
+          <h2 class="section-title">Activity Stats</h2>
+          <div class="stats-box">
+            <div class="stat-item">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Tests Taken</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">INFP</div>
+              <div class="stat-label">Personality Type</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">118</div>
+              <div class="stat-label">IQ Score</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="profile-section">
+          <h2 class="section-title">Recent Results</h2>
+          
+          <div id="results-container">
+            <!-- Empty state (shown when no results exist) -->
+            <div class="empty-state" id="empty-results">
+              <div class="empty-state-icon">📋</div>
+              <p>You haven't taken any tests yet.</p>
+              <p>Complete your first test to see your results here!</p>
+              <div style="margin-top: 1.5rem">
+                <a href="iq-test.html" class="cta-btn" style="margin-right: 1rem">Take IQ Test</a>
+                <a href="personality-test.html" class="cta-btn">Take Personality Test</a>
+              </div>
+            </div>
+            
+            <!-- Test results (hidden initially) -->
+            <div id="test-results" style="display: none;">
+              <div class="test-result-card">
+                <div class="test-result-title">
+                  <div class="test-type">Personality Test</div>
+                  <div class="test-date">May 28, 2025</div>
+                </div>
+                <div class="test-score">INFP</div>
+                <div class="test-description">The Reflective Visionary</div>
+                <a href="#" class="view-details-btn">View Full Results →</a>
+              </div>
+              
+              <div class="test-result-card">
+                <div class="test-result-title">
+                  <div class="test-type">IQ Test</div>
+                  <div class="test-date">May 20, 2025</div>
+                </div>
+                <div class="test-score">118</div>
+                <div class="test-description">Above Average Intelligence</div>
+                <a href="#" class="view-details-btn">View Full Results →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Profile Edit Modal -->
+  <div class="modal-overlay" id="edit-profile-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Edit Profile</div>
+        <button class="modal-close" id="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="display-name" class="form-label">Display Name</label>
+          <input type="text" id="display-name" class="form-input" placeholder="Enter your display name">
+        </div>
+        <!-- Could add more fields here in the future (e.g., profile picture upload) -->
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn cancel" id="cancel-edit">Cancel</button>
+        <button class="modal-btn save" id="save-profile">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>© 2025 Alto . Made with <span style="color:#4ecb8f;">💚</span></div>
+  </footer>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ea0aGE3rAUylcNePSHKD00R3N2MFmww",
+      authDomain: "the-alto.firebaseapp.com",
+      projectId: "the-alto",
+      storageBucket: "the-alto.appspot.com",
+      messagingSenderId: "810447970631",
+      appId: "1:810447970631:web:dc8c8347bf1af79e5d2a25"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    // Check if user is logged in
+    firebase.auth().onAuthStateChanged(user => {
+      const joinBtn = document.getElementById('join-btn');
+      const userMenu = document.getElementById('user-menu');
+      const profilePic = document.getElementById('profile-pic');
+      const largeProfilePic = document.getElementById('large-profile-pic');
+      const userName = document.getElementById('user-name');
+      const userEmail = document.getElementById('user-email');
+      
+      if (user) {
+        // User is signed in
+        joinBtn.style.display = 'none';
+        userMenu.style.display = 'inline-block';
+        
+        // Set profile pictures
+        const profileImageUrl = user.photoURL || 
+          'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email) + '&background=4ecb8f&color=fff&size=128';
+        
+        profilePic.src = profileImageUrl;
+        largeProfilePic.src = profileImageUrl;
+        
+        // Set user info
+        userName.textContent = user.displayName || 'Alto User';
+        userEmail.textContent = user.email || '';
+        
+        // Load test results from Firestore
+        loadUserTestResults(user.uid);
+      } else {
+        // User is signed out, redirect to login
+        window.location.href = 'login.html';
+      }
+    });
+    
+    // Function to load user's test results
+    function loadUserTestResults(userId) {
+      console.log("Loading test results for user:", userId);
+      
+      // Show loading state
+      document.getElementById('empty-results').innerHTML = `
+        <div class="empty-state-icon">⌛</div>
+        <p>Loading your test results...</p>
+      `;
+      
+      // First, try getting all documents in the collection to see if it exists
+      db.collection('testResults').limit(1).get()
+        .then((snapshot) => {
+          console.log("Collection access successful, contains:", snapshot.size, "documents");
+          
+          // Now try the actual query
+          return db.collection('testResults')
+            .where('userId', '==', userId)
+            .get(); // Remove orderBy temporarily to eliminate potential index issues
+        })
+        .then((querySnapshot) => {
+          console.log("Query returned:", querySnapshot.size, "results");
+          console.log("Results:", querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+          
+          if (querySnapshot.empty) {
+            // No results found, show empty state
+            document.getElementById('empty-results').style.display = 'block';
+            document.getElementById('test-results').style.display = 'none';
+            
+            // Reset empty state content
+            document.getElementById('empty-results').innerHTML = `
+              <div class="empty-state-icon">📋</div>
+              <p>You haven't taken any tests yet.</p>
+              <p>Complete your first test to see your results here!</p>
+              <div style="margin-top: 1.5rem">
+                <a href="iq-test.html" class="cta-btn" style="margin-right: 1rem">Take IQ Test</a>
+                <a href="personality-test.html" class="cta-btn">Take Personality Test</a>
+              </div>
+            `;
+            
+            // Update activity stats
+            updateActivityStats(0, '-', '-');
+          } else {
+            // Results found, hide empty state and show results
+            document.getElementById('empty-results').style.display = 'none';
+            document.getElementById('test-results').style.display = 'block';
+            
+            // Clear existing results
+            document.getElementById('test-results').innerHTML = '';
+            
+            // Keep track of latest results for stats
+            let personalityType = '-';
+            let iqScore = '-';
+            
+            // Process and display each result
+            querySnapshot.forEach((doc) => {
+              try {
+                const result = doc.data();
+                console.log("Processing result:", result);
+                
+                // Format date with fallbacks
+                let formattedDate = 'Unknown date';
+                
+                try {
+                  if (result.timestamp) {
+                    if (typeof result.timestamp.toDate === 'function') {
+                      // Firestore Timestamp
+                      formattedDate = result.timestamp.toDate().toLocaleDateString();
+                    } else if (result.timestamp.seconds) {
+                      // Serialized Firestore Timestamp
+                      formattedDate = new Date(result.timestamp.seconds * 1000).toLocaleDateString();
+                    } else if (result.timestamp instanceof Date || typeof result.timestamp === 'string') {
+                      // JS Date or string
+                      formattedDate = new Date(result.timestamp).toLocaleDateString();
+                    }
+                  }
+                } catch (dateError) {
+                  console.error("Date formatting error:", dateError);
+                }
+                
+                // Create result card
+                const resultCard = document.createElement('div');
+                resultCard.className = 'test-result-card';
+                
+                // Different display for different test types
+                if (result.testType === 'personality') {
+                  personalityType = result.result || 'Unknown'; // Update for stats
+                  
+                  resultCard.innerHTML = `
+                    <div class="test-result-title">
+                      <div class="test-type">Personality Test</div>
+                      <div class="test-date">${formattedDate}</div>
+                    </div>
+                    <div class="test-score">${result.result || 'N/A'}</div>
+                    <div class="test-description">${result.description || 'No description available'}</div>
+                    <a href="personality-test.html" class="view-details-btn">Take Test Again →</a>
+                  `;
+                } else if (result.testType === 'iq') {
+                  iqScore = result.result || 'Unknown'; // Update for stats
+                  
+                  resultCard.innerHTML = `
+                    <div class="test-result-title">
+                      <div class="test-type">IQ Test</div>
+                      <div class="test-date">${formattedDate}</div>
+                    </div>
+                    <div class="test-score">${result.result || 'N/A'}</div>
+                    <div class="test-description">${result.description || 'No description available'}</div>
+                    <a href="iq-test.html" class="view-details-btn">Take Test Again →</a>
+                  `;
+                } else {
+                  // Unknown test type
+                  resultCard.innerHTML = `
+                    <div class="test-result-title">
+                      <div class="test-type">${result.testType || 'Unknown Test'}</div>
+                      <div class="test-date">${formattedDate}</div>
+                    </div>
+                    <div class="test-score">N/A</div>
+                    <div class="test-description">Unknown test type</div>
+                  `;
+                }
+                
+                // Add card to results container
+                document.getElementById('test-results').appendChild(resultCard);
+              } catch (processingError) {
+                console.error("Error processing result:", processingError, doc.data());
+              }
+            });
+            
+            // Update activity stats
+            updateActivityStats(querySnapshot.size, personalityType, iqScore);
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading test results:", error);
+          
+          // Show error state with more details
+          document.getElementById('empty-results').style.display = 'block';
+          document.getElementById('test-results').style.display = 'none';
+          document.getElementById('empty-results').innerHTML = `
+            <div class="empty-state-icon">❌</div>
+            <p>There was an error loading your test results.</p>
+            <p>Error: ${error.message}</p>
+            <p>Please try again later or contact support.</p>
+          `;
+        });
+    }
+    
+    // Function to update activity stats
+    function updateActivityStats(testCount, personalityType, iqScore) {
+      const statsContainer = document.querySelector('.stats-box');
+      statsContainer.innerHTML = `
+        <div class="stat-item">
+          <div class="stat-value">${testCount}</div>
+          <div class="stat-label">Tests Taken</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${personalityType}</div>
+          <div class="stat-label">Personality Type</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${iqScore}</div>
+          <div class="stat-label">IQ Score</div>
+        </div>
+      `;
+    }
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      firebase.auth().signOut().then(() => {
+        // Sign-out successful
+        window.location.href = 'homepage.html';
+      }).catch((error) => {
+        // An error happened
+        console.error('Logout error:', error);
+      });
+    });
+    
+    // Edit profile functionality
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+      // Show the modal
+      const modal = document.getElementById('edit-profile-modal');
+      modal.classList.add('active');
+      
+      // Pre-fill the form with current values
+      const user = firebase.auth().currentUser;
+      if (user) {
+        document.getElementById('display-name').value = user.displayName || '';
+      }
+    });
+    
+    // Close modal when clicking the close button
+    document.getElementById('close-modal').addEventListener('click', function() {
+      document.getElementById('edit-profile-modal').classList.remove('active');
+    });
+    
+    // Close modal when clicking the cancel button
+    document.getElementById('cancel-edit').addEventListener('click', function() {
+      document.getElementById('edit-profile-modal').classList.remove('active');
+    });
+    
+    // Save profile changes
+    document.getElementById('save-profile').addEventListener('click', function() {
+      const user = firebase.auth().currentUser;
+      const newDisplayName = document.getElementById('display-name').value.trim();
+      
+      if (user && newDisplayName) {
+        // Show loading state
+        const saveBtn = document.getElementById('save-profile');
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
+        
+        // Update Firebase Auth profile
+        user.updateProfile({
+          displayName: newDisplayName
+        }).then(() => {
+          console.log('Profile updated successfully');
+          
+          // Update UI
+          document.getElementById('user-name').textContent = newDisplayName;
+          
+          // Close modal
+          document.getElementById('edit-profile-modal').classList.remove('active');
+          
+          // Reset button
+          saveBtn.textContent = originalText;
+          saveBtn.disabled = false;
+        }).catch((error) => {
+          console.error('Error updating profile:', error);
+          alert('There was an error updating your profile. Please try again.');
+          
+          // Reset button
+          saveBtn.textContent = originalText;
+          saveBtn.disabled = false;
+        });
+      }
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('edit-profile-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
