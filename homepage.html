@@ -10,15 +10,11 @@
       margin: 0;
       font-family: 'Quicksand', Arial, sans-serif;
       color: #2e4d3a;
-      /* Update background image path to the correct location */
-      background: url('assets/background.jpg') no-repeat center center fixed;
-      /* Option 2 (commented out): Use local file after you create the folder
-      background: url('assets/images/background.jpg') no-repeat center center fixed; */
+      background: #ffffff;
       background-size: cover;
       position: relative;
     }
     
-    /* Reduce overlay opacity to make background more visible */
     body::before {
       content: "";
       position: fixed;
@@ -26,7 +22,6 @@
       left: 0;
       width: 100%;
       height: 100%;
-      /* Reduce opacity from 0.92/0.94 to 0.7/0.75 */
       background: linear-gradient(180deg, rgba(230, 249, 242, 0.7) 0%, rgba(253, 246, 227, 0.75) 100%);
       z-index: -1;
     }
@@ -218,6 +213,7 @@
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 2.5rem; /* More roundy edges */
       box-shadow: 0 4px 16px rgba(46, 77, 58, 0.08);
       padding: 2rem 1.5rem;
       width: 320px;
@@ -392,7 +388,6 @@
     </section>
   </div>
   
-  <div class="login-note">You don't need to log in to take tests. Log in or sign up only if you want to save your past test results!</div>
   <main>
     <div class="features-title">What We Offer</div>
     <div class="features">
